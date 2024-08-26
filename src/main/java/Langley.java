@@ -90,10 +90,10 @@ public class Langley {
                         System.out.println("I've marked this:");
                         System.out.println("  " + tasks.get(index));
                     } else {
-                        System.out.println("Index non-existent. Enter an in-range index.");
+                        System.out.println("Error: Index non-existent. Enter an in-range index.");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Invalid index. Enter a valid index.");
+                    System.out.println("Error: Invalid index. Enter a valid index.");
                 }
             } else if (userInput.toLowerCase().startsWith("unmark ")) {
                 try {
@@ -103,10 +103,10 @@ public class Langley {
                         System.out.println("I've unmarked this:");
                         System.out.println("  " + tasks.get(index));
                     } else {
-                        System.out.println("Index non-existent. Enter an in-range index.");
+                        System.out.println("Error: Index non-existent. Enter an in-range index.");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Invalid index. Enter a valid index.");
+                    System.out.println("Error: Invalid index. Enter a valid index.");
                 }
             } else if (userInput.toLowerCase().startsWith("todo ")) {
                 String description = userInput.substring(5).trim();
