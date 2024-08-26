@@ -132,6 +132,19 @@ public class Langley {
                 } else {
                     System.out.println("Error: Event command format is 'event x /from time1 /to time2'.");
                 }
+            } else if (userInput.toLowerCase().startsWith("delete ")) {
+                try {
+                    int index = Integer.parseInt(userInput.substring(7)) - 1;
+                    if (index >= 0 && index < tasks.size()) {
+                        Task removedTask = tasks.remove(index);
+                        System.out.println("I've deleted this task:");
+                        System.out.println("  " + removedTask);
+                    } else {
+                        System.out.println("Error: Index non-existent. Enter an in-range index.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: Invalid index. Enter a valid index.");
+                }
             } else {
                 System.out.println("Error: Invalid command. Use 'todo', 'deadline', or 'event'. To exit, use 'bye'.");
             }
