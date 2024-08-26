@@ -2,11 +2,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Langley {
-    static class Message {
-        String text;
+    static abstract class Task {
+        String description;
         boolean isMarked;
-        Message(String text) {
-            this.text = text;
+        Task(String description) {
+            this.description = description;
             this.isMarked = false;
         }
         void mark() {
@@ -15,9 +15,51 @@ public class Langley {
         void unmark() {
             this.isMarked = false;
         }
+        abstract String getType();
         @Override
         public String toString() {
-            return "[" + (isMarked ? "X" : " ") + "] " + text;
+            return "[" + getType() + "][" + (isMarked ? "X" : " ") + "] " + description;
+        }
+    }
+    static class ToDo extends Task {
+        ToDo(String description) {
+            super(description);
+        }
+        @Override
+        String getType() {
+            return "T";
+        }
+    }
+    static class Deadline extends Task {
+        String by;
+        Deadline(String description, String by) {
+            super(description);
+            this.by = by;
+        }
+        @Override
+        String getType() {
+            return "D";
+        }
+        @Override
+        public String toString() {
+            return super.toString() + " (by: " + by + ")";
+        }
+    }
+    static class Event extends Task {
+        String from;
+        String to;
+        Event(String description, String from, String to) {
+            super(description);
+            this.from = from;
+            this.to = to;
+        }
+        @Override
+        String getType() {
+            return "E";
+        }
+        @Override
+        public String toString() {
+            return super.toString() + " (from: " + from + " to: " + to + ")";
         }
     }
 
@@ -25,7 +67,7 @@ public class Langley {
         String greeting = "Hello, this is Langley.";
         String goodbye = "We will meet again.";
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Message> messages = new ArrayList<>();
+        ArrayList<Task> tasks = new ArrayList<>();
 
         System.out.println(greeting);
 
@@ -37,38 +79,61 @@ public class Langley {
                 System.out.println(goodbye);
                 break;
             } else if (userInput.equalsIgnoreCase("list")) {
-                for (int i = 0; i < messages.size(); i++) {
-                    System.out.println((i + 1) + ". " + messages.get(i));
+                for (int i = 0; i < tasks.size(); i++) {
+                    System.out.println((i + 1) + ". " + tasks.get(i));
                 }
             } else if (userInput.toLowerCase().startsWith("mark ")) {
                 try {
                     int index = Integer.parseInt(userInput.substring(5)) - 1;
-                    if (index >= 0 && index < messages.size()) {
-                        messages.get(index).mark();
+                    if (index >= 0 && index < tasks.size()) {
+                        tasks.get(index).mark();
                         System.out.println("I've marked this:");
-                        System.out.println("  " + messages.get(index));
+                        System.out.println("  " + tasks.get(index));
                     } else {
-                        System.out.println("You don't have that many messages.");
+                        System.out.println("Index non-existent. Enter an in-range index.");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("That's not even a number.");
+                    System.out.println("Invalid index. Enter a valid index.");
                 }
             } else if (userInput.toLowerCase().startsWith("unmark ")) {
                 try {
                     int index = Integer.parseInt(userInput.substring(7)) - 1;
-                    if (index >= 0 && index < messages.size()) {
-                        messages.get(index).unmark();
+                    if (index >= 0 && index < tasks.size()) {
+                        tasks.get(index).unmark();
                         System.out.println("I've unmarked this:");
-                        System.out.println("  " + messages.get(index));
+                        System.out.println("  " + tasks.get(index));
                     } else {
-                        System.out.println("Invalid message number.");
+                        System.out.println("Index non-existent. Enter an in-range index.");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Invalid input. Please enter a valid message number.");
+                    System.out.println("Invalid index. Enter a valid index.");
+                }
+            } else if (userInput.toLowerCase().startsWith("todo ")) {
+                String description = userInput.substring(5).trim();
+                if (!description.isEmpty()) {
+                    tasks.add(new ToDo(description));
+                    System.out.println("Added a new ToDo: " + description);
+                } else {
+                    System.out.println("Error: ToDo description cannot be empty.");
+                }
+            } else if (userInput.toLowerCase().startsWith("deadline ")) {
+                String[] parts = userInput.substring(9).split("/by", 2);
+                if (parts.length == 2 && !parts[0].trim().isEmpty() && !parts[1].trim().isEmpty()) {
+                    tasks.add(new Deadline(parts[0].trim(), parts[1].trim()));
+                    System.out.println("Added a new Deadline: " + parts[0].trim() + " (by: " + parts[1].trim() + ")");
+                } else {
+                    System.out.println("Error: Deadline command format is 'deadline x /by time'.");
+                }
+            } else if (userInput.toLowerCase().startsWith("event ")) {
+                String[] parts = userInput.substring(6).split("/from|/to");
+                if (parts.length == 3 && !parts[0].trim().isEmpty() && !parts[1].trim().isEmpty() && !parts[2].trim().isEmpty()) {
+                    tasks.add(new Event(parts[0].trim(), parts[1].trim(), parts[2].trim()));
+                    System.out.println("Added a new Event: " + parts[0].trim() + " (from: " + parts[1].trim() + " to: " + parts[2].trim() + ")");
+                } else {
+                    System.out.println("Error: Event command format is 'event x /from time1 /to time2'.");
                 }
             } else {
-                messages.add(new Message(userInput));
-                System.out.println("Langley: " + userInput);
+                System.out.println("Error: Invalid command. Use 'todo', 'deadline', or 'event'. To exit, use 'bye'.");
             }
         }
 
