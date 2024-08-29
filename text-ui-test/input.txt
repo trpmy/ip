@@ -1,0 +1,10 @@
+todo i give up
+list
+mark 1
+list
+deadline go home /by today
+list
+mark 2
+delete 1
+unmark 1
+bye
