@@ -1,6 +1,10 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 
 public class Langley {
     static abstract class Task {
@@ -63,6 +67,7 @@ public class Langley {
             return task;
         }
 
+
     }
 
     static class ToDo extends Task {
@@ -77,11 +82,18 @@ public class Langley {
     }
 
     static class Deadline extends Task {
-        String by;
+        String byString;
+        LocalDate byDate;
 
         Deadline(String description, String by) {
             super(description);
-            this.by = by;
+            try {
+                this.byDate = LocalDate.parse(by);
+                this.byString = null;
+            } catch (DateTimeParseException e) {
+                this.byString = by;
+                this.byDate = null;
+            }
         }
 
         @Override
@@ -91,18 +103,34 @@ public class Langley {
 
         @Override
         public String toString() {
+            String by = (byDate != null) ? byDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : byString;
             return super.toString() + " (by: " + by + ")";
         }
     }
 
     static class Event extends Task {
-        String from;
-        String to;
+        String fromString;
+        String toString;
+        LocalDate fromDate;
+        LocalDate toDate;
 
         Event(String description, String from, String to) {
             super(description);
-            this.from = from;
-            this.to = to;
+            try {
+                this.fromDate = LocalDate.parse(from);
+                this.fromString = null;
+            } catch (DateTimeParseException e) {
+                this.fromString = from;
+                this.fromDate = null;
+            }
+
+            try {
+                this.toDate = LocalDate.parse(to);
+                this.toString = null;
+            } catch (DateTimeParseException e) {
+                this.toString = to;
+                this.toDate = null;
+            }
         }
 
         @Override
@@ -112,6 +140,8 @@ public class Langley {
 
         @Override
         public String toString() {
+            String from = (fromDate != null) ? fromDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : fromString;
+            String to = (toDate != null) ? toDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : toString;
             return super.toString() + " (from: " + from + " to: " + to + ")";
         }
     }
