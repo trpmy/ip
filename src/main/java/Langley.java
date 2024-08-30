@@ -5,8 +5,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-
 public class Langley {
+
+    // Task Classes
     static abstract class Task {
         String description;
         boolean isMarked;
@@ -66,8 +67,6 @@ public class Langley {
 
             return task;
         }
-
-
     }
 
     static class ToDo extends Task {
@@ -146,129 +145,202 @@ public class Langley {
         }
     }
 
-    public static void main(String[] args) {
-        String greeting = "Hello, this is Langley.";
-        String goodbye = "We will meet again.";
-        Scanner scanner = new Scanner(System.in);
-        ArrayList<Task> tasks = new ArrayList<>();
+    // Storage Class
+    static class Storage {
+        private String filePath;
 
-        loadTasks(tasks);
-
-        System.out.println(greeting);
-
-        while (true) {
-            System.out.print("You: ");
-            String userInput = scanner.nextLine();
-
-            if (userInput.equalsIgnoreCase("bye")) {
-                System.out.println(goodbye);
-                break;
-            } else if (userInput.equalsIgnoreCase("list")) {
-                for (int i = 0; i < tasks.size(); i++) {
-                    System.out.println((i + 1) + ". " + tasks.get(i));
-                }
-            } else if (userInput.toLowerCase().startsWith("mark ")) {
-                try {
-                    int index = Integer.parseInt(userInput.substring(5)) - 1;
-                    if (index >= 0 && index < tasks.size()) {
-                        tasks.get(index).mark();
-                        System.out.println("I've marked this:");
-                        System.out.println("  " + tasks.get(index));
-                        saveTasks(tasks);
-                    } else {
-                        System.out.println("Error: Index non-existent. Enter an in-range index.");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Error: Invalid index. Enter a valid index.");
-                }
-            } else if (userInput.toLowerCase().startsWith("unmark ")) {
-                try {
-                    int index = Integer.parseInt(userInput.substring(7)) - 1;
-                    if (index >= 0 && index < tasks.size()) {
-                        tasks.get(index).unmark();
-                        System.out.println("I've unmarked this:");
-                        System.out.println("  " + tasks.get(index));
-                        saveTasks(tasks);
-                    } else {
-                        System.out.println("Error: Index non-existent. Enter an in-range index.");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Error: Invalid index. Enter a valid index.");
-                }
-            } else if (userInput.toLowerCase().startsWith("todo ")) {
-                String description = userInput.substring(5).trim();
-                if (!description.isEmpty()) {
-                    tasks.add(new ToDo(description));
-                    System.out.println("Added a new ToDo: " + description);
-                    saveTasks(tasks);
-                } else {
-                    System.out.println("Error: ToDo description cannot be empty.");
-                }
-            } else if (userInput.toLowerCase().startsWith("deadline ")) {
-                String[] parts = userInput.substring(9).split("/by", 2);
-                if (parts.length == 2 && !parts[0].trim().isEmpty() && !parts[1].trim().isEmpty()) {
-                    tasks.add(new Deadline(parts[0].trim(), parts[1].trim()));
-                    System.out.println("Added a new Deadline: " + parts[0].trim() + " (by: " + parts[1].trim() + ")");
-                    saveTasks(tasks);
-                } else {
-                    System.out.println("Error: Deadline command format is 'deadline x /by time'.");
-                }
-            } else if (userInput.toLowerCase().startsWith("event ")) {
-                String[] parts = userInput.substring(6).split("/from|/to");
-                if (parts.length == 3 && !parts[0].trim().isEmpty() && !parts[1].trim().isEmpty() && !parts[2].trim().isEmpty()) {
-                    tasks.add(new Event(parts[0].trim(), parts[1].trim(), parts[2].trim()));
-                    System.out.println("Added a new Event: " + parts[0].trim() + " (from: " + parts[1].trim() + " to: " + parts[2].trim() + ")");
-                    saveTasks(tasks);
-                } else {
-                    System.out.println("Error: Event command format is 'event x /from time1 /to time2'.");
-                }
-            } else if (userInput.toLowerCase().startsWith("delete ")) {
-                try {
-                    int index = Integer.parseInt(userInput.substring(7)) - 1;
-                    if (index >= 0 && index < tasks.size()) {
-                        Task removedTask = tasks.remove(index);
-                        System.out.println("I've deleted this task:");
-                        System.out.println("  " + removedTask);
-                        saveTasks(tasks);
-                    } else {
-                        System.out.println("Error: Index non-existent. Enter an in-range index.");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Error: Invalid index. Enter a valid index.");
-                }
-            } else {
-                System.out.println("Error: Invalid command. Use 'todo', 'deadline', or 'event'. To exit, use 'bye'.");
-            }
+        Storage(String filePath) {
+            this.filePath = filePath;
         }
 
-        scanner.close();
-    }
-
-    private static void saveTasks(ArrayList<Task> tasks) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Langley.txt"))) {
-            for (Task task : tasks) {
-                writer.write(task.toString());
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            System.out.println("Error: Unable to save tasks to file.");
-        }
-    }
-
-    private static void loadTasks(ArrayList<Task> tasks) {
-        File file = new File("Langley.txt");
-        if (file.exists()) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    Task task = Task.fromString(line);
-                    if (task != null) {
-                        tasks.add(task);
-                    }
+        void saveTasks(ArrayList<Task> tasks) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                for (Task task : tasks) {
+                    writer.write(task.toString());
+                    writer.newLine();
                 }
             } catch (IOException e) {
-                System.out.println("Error: Unable to load tasks from file.");
+                System.out.println("Error: Unable to save tasks to file.");
             }
         }
+
+        void loadTasks(ArrayList<Task> tasks) {
+            File file = new File(filePath);
+            if (file.exists()) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        Task task = Task.fromString(line);
+                        if (task != null) {
+                            tasks.add(task);
+                        }
+                    }
+                } catch (IOException e) {
+                    System.out.println("Error: Unable to load tasks from file.");
+                }
+            }
+        }
+    }
+
+    // TaskList Class
+    static class TaskList {
+        private ArrayList<Task> tasks;
+
+        TaskList() {
+            this.tasks = new ArrayList<>();
+        }
+
+        void addTask(Task task) {
+            tasks.add(task);
+        }
+
+        void deleteTask(int index) {
+            tasks.remove(index);
+        }
+
+        Task getTask(int index) {
+            return tasks.get(index);
+        }
+
+        int size() {
+            return tasks.size();
+        }
+
+        ArrayList<Task> getTasks() {
+            return tasks;
+        }
+
+        void markTask(int index) {
+            tasks.get(index).mark();
+        }
+
+        void unmarkTask(int index) {
+            tasks.get(index).unmark();
+        }
+
+        void listTasks() {
+            for (int i = 0; i < tasks.size(); i++) {
+                System.out.println((i + 1) + ". " + tasks.get(i));
+            }
+        }
+    }
+
+    // Ui Class
+    static class Ui {
+        private Scanner scanner;
+
+        Ui() {
+            this.scanner = new Scanner(System.in);
+        }
+
+        void printGreeting() {
+            System.out.println("Hello, this is Langley.");
+        }
+
+        void printGoodbye() {
+            System.out.println("We will meet again.");
+        }
+
+        String getUserInput() {
+            System.out.print("You: ");
+            return scanner.nextLine();
+        }
+
+        void print(String message) {
+            System.out.println(message);
+        }
+
+        void close() {
+            scanner.close();
+        }
+    }
+
+    // Parser Class
+    static class Parser {
+        static String[] parseCommand(String userInput) {
+            return userInput.trim().split(" ", 2);
+        }
+    }
+
+    public static void main(String[] args) {
+        Ui ui = new Ui();
+        Storage storage = new Storage("Langley.txt");
+        TaskList taskList = new TaskList();
+
+        ui.printGreeting();
+        storage.loadTasks(taskList.getTasks());
+
+        while (true) {
+            String userInput = ui.getUserInput();
+            String[] command = Parser.parseCommand(userInput);
+
+            if (command[0].equalsIgnoreCase("bye")) {
+                ui.printGoodbye();
+                break;
+            } else if (command[0].equalsIgnoreCase("list")) {
+                taskList.listTasks();
+            } else if (command[0].equalsIgnoreCase("mark")) {
+                try {
+                    int index = Integer.parseInt(command[1]) - 1;
+                    taskList.markTask(index);
+                    ui.print("I've marked this:");
+                    ui.print("  " + taskList.getTask(index));
+                    storage.saveTasks(taskList.getTasks());
+                } catch (Exception e) {
+                    ui.print("Error: Invalid index.");
+                }
+            } else if (command[0].equalsIgnoreCase("unmark")) {
+                try {
+                    int index = Integer.parseInt(command[1]) - 1;
+                    taskList.unmarkTask(index);
+                    ui.print("I've unmarked this:");
+                    ui.print("  " + taskList.getTask(index));
+                    storage.saveTasks(taskList.getTasks());
+                } catch (Exception e) {
+                    ui.print("Error: Invalid index.");
+                }
+            } else if (command[0].equalsIgnoreCase("todo")) {
+                String description = command[1].trim();
+                if (!description.isEmpty()) {
+                    taskList.addTask(new ToDo(description));
+                    ui.print("Added a new ToDo: " + description);
+                    storage.saveTasks(taskList.getTasks());
+                } else {
+                    ui.print("Error: ToDo description cannot be empty.");
+                }
+            } else if (command[0].equalsIgnoreCase("deadline")) {
+                String[] parts = command[1].split("/by", 2);
+                if (parts.length == 2 && !parts[0].trim().isEmpty() && !parts[1].trim().isEmpty()) {
+                    taskList.addTask(new Deadline(parts[0].trim(), parts[1].trim()));
+                    ui.print("Added a new Deadline: " + parts[0].trim() + " (by: " + parts[1].trim() + ")");
+                    storage.saveTasks(taskList.getTasks());
+                } else {
+                    ui.print("Error: Deadline command format is 'deadline x /by time'.");
+                }
+            } else if (command[0].equalsIgnoreCase("event")) {
+                String[] parts = command[1].split("/from|/to", 3);
+                if (parts.length == 3 && !parts[0].trim().isEmpty() && !parts[1].trim().isEmpty() && !parts[2].trim().isEmpty()) {
+                    taskList.addTask(new Event(parts[0].trim(), parts[1].trim(), parts[2].trim()));
+                    ui.print("Added a new Event: " + parts[0].trim() + " (from: " + parts[1].trim() + " to: " + parts[2].trim() + ")");
+                    storage.saveTasks(taskList.getTasks());
+                } else {
+                    ui.print("Error: Event command format is 'event x /from time /to time'.");
+                }
+            } else if (command[0].equalsIgnoreCase("delete")) {
+                try {
+                    int index = Integer.parseInt(command[1]) - 1;
+                    Task task = taskList.getTask(index);
+                    taskList.deleteTask(index);
+                    ui.print("Deleted: " + task);
+                    storage.saveTasks(taskList.getTasks());
+                } catch (Exception e) {
+                    ui.print("Error: Invalid index.");
+                }
+            } else {
+                ui.print("Error: Unknown command. Available commands: list, mark, unmark, todo, deadline, event, delete, bye");
+            }
+        }
+
+        ui.close();
     }
 }
