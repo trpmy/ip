@@ -1,9 +1,5 @@
 package langley.tasks;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-
 public abstract class Task {
     String description;
     boolean isMarked;
@@ -13,10 +9,16 @@ public abstract class Task {
         this.isMarked = false;
     }
 
+    /**
+     * Marks the task.
+     */
     public void mark() {
         this.isMarked = true;
     }
 
+    /**
+     * Unmarks the task.
+     */
     public void unmark() {
         this.isMarked = false;
     }
@@ -28,6 +30,13 @@ public abstract class Task {
         return "[" + getType() + "][" + (isMarked ? "X" : " ") + "] " + description;
     }
 
+    /**
+     * Converts a string representation of a task back into a Task object.
+     * Parses the string for type, status, and task details.
+     *
+     * @param line The string representing a task.
+     * @return The corresponding Task object or null if parsing fails.
+     */
     public static Task fromString(String line) {
         String[] parts = line.split("]", 3);
         String type = parts[0].substring(1);

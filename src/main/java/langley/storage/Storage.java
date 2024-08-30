@@ -2,7 +2,12 @@ package langley.storage;
 
 import langley.tasks.Task;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 public class Storage {
@@ -11,6 +16,13 @@ public class Storage {
     public Storage(String filePath) {
         this.filePath = filePath;
     }
+
+    /**
+     * Saves the given list of tasks to the file specified by the file path.
+     *
+     * @param tasks List of tasks to save.
+     * @throws IOException If an I/O error occurs during file writing.
+     */
 
     public void saveTasks(ArrayList<Task> tasks) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
@@ -22,6 +34,14 @@ public class Storage {
             System.out.println("Error: Unable to save tasks to file.");
         }
     }
+
+    /**
+     * Loads tasks from the file into the provided task list.
+     * If the file does not exist, no tasks are loaded.
+     *
+     * @param tasks List to populate with tasks from the file.
+     * @throws IOException If an I/O error occurs during file reading.
+     */
 
     public void loadTasks(ArrayList<Task> tasks) {
         File file = new File(filePath);

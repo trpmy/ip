@@ -5,13 +5,24 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Event extends Task {
-    String from;
-    String to;
+    LocalDate fromDate;
+    String fromString;
+    LocalDate toDate;
+    String toString;
 
     public Event(String description, String from, String to) {
         super(description);
-        this.from = from;
-        this.to = to;
+        try {
+            this.fromDate = LocalDate.parse(from);
+            this.fromString = null;
+            this.toDate = LocalDate.parse(to);
+            this.toString = null;
+        } catch (DateTimeParseException e) {
+            this.fromDate = null;
+            this.fromString = from;
+            this.toDate = null;
+            this.toString = to;
+        }
     }
 
     @Override
@@ -21,6 +32,8 @@ public class Event extends Task {
 
     @Override
     public String toString() {
+        String from = (fromDate != null) ? fromDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : fromString;
+        String to = (toDate != null) ? toDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : toString;
         return super.toString() + " (from: " + from + " to: " + to + ")";
     }
 }
