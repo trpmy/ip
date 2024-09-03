@@ -2,7 +2,7 @@ package langley.tasks;
 
 public abstract class Task {
     String description;
-    boolean isMarked;
+    public boolean isMarked;
 
     public Task(String description) {
         this.description = description;
