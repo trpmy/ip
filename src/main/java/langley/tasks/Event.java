@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Represents an event task with a start time and end time.
+ */
 public class Event extends Task {
     LocalDate fromDate;
     String fromString;

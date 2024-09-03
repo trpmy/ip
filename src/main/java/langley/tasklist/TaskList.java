@@ -4,6 +4,9 @@ import langley.tasks.Task;
 
 import java.util.ArrayList;
 
+/**
+ * Manages a collection of tasks, including adding, deleting, marking, and listing tasks.
+ */
 public class TaskList {
     private ArrayList<Task> tasks = new ArrayList<>();
 

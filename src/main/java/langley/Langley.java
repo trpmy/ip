@@ -9,6 +9,9 @@ import langley.tasklist.TaskList;
 import langley.ui.Ui;
 import langley.parser.Parser;
 
+/**
+ * The main class for the Langley application, handling user input, task management, and file storage.
+ */
 public class Langley {
 
     /**

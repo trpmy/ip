@@ -1,5 +1,8 @@
 package langley.tasks;
 
+/**
+ * Abstract class representing a generic task with a description and completion status.
+ */
 public abstract class Task {
     String description;
     public boolean isMarked;
@@ -45,7 +48,7 @@ public abstract class Task {
 
         Task task = null;
 
-        switch (type) {
+            switch (type) {
             case "T":
                 task = new ToDo(description);
                 break;

@@ -10,6 +10,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+/**
+ * Handles loading and saving of tasks to and from a file.
+ */
+
 public class Storage {
     private String filePath;
 
@@ -23,7 +27,6 @@ public class Storage {
      * @param tasks List of tasks to save.
      * @throws IOException If an I/O error occurs during file writing.
      */
-
     public void saveTasks(ArrayList<Task> tasks) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (Task task : tasks) {
@@ -42,7 +45,6 @@ public class Storage {
      * @param tasks List to populate with tasks from the file.
      * @throws IOException If an I/O error occurs during file reading.
      */
-
     public void loadTasks(ArrayList<Task> tasks) {
         File file = new File(filePath);
         if (file.exists()) {

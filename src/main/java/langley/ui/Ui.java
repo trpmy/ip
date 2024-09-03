@@ -2,6 +2,9 @@ package langley.ui;
 
 import java.util.Scanner;
 
+/**
+ * Handles user interaction, including printing messages and reading user input.
+ */
 public class Ui {
     private Scanner scanner = new Scanner(System.in);
 

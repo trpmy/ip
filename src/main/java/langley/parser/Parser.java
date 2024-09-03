@@ -1,5 +1,8 @@
 package langley.parser;
 
+/**
+ * Parses user input commands into actionable components for the application.
+ */
 public class Parser {
 
     /**

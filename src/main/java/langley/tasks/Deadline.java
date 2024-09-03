@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Represents a task with a deadline, storing a due date or time.
+ */
 public class Deadline extends Task {
     String byString;
     LocalDate byDate;
