@@ -1,8 +1,8 @@
 package langley.tasklist;
 
-import langley.tasks.Task;
-
 import java.util.ArrayList;
+
+import langley.tasks.Task;
 
 public class TaskList {
     private ArrayList<Task> tasks = new ArrayList<>();
