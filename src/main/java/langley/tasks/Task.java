@@ -2,11 +2,18 @@ package langley.tasks;
 
 public abstract class Task {
     String description;
-    public boolean isMarked;
+    boolean isMarked;
 
     public Task(String description) {
         this.description = description;
         this.isMarked = false;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+    public boolean getIsMarked() {
+        return this.isMarked;
     }
 
     /**

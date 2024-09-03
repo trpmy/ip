@@ -91,6 +91,13 @@ public class Langley {
                 } catch (Exception e) {
                     ui.print("Error: Invalid index.");
                 }
+            } else if (command[0].equalsIgnoreCase("find")) {
+                String keyword = command[1].trim();
+                if (!keyword.isEmpty()) {
+                    taskList.findTasks(keyword);
+                } else {
+                    ui.print("Error: Please provide a keyword to search for.");
+                }
             } else {
                 ui.print("Unknown command. Available commands: list, mark, unmark, todo, deadline, event, delete, bye.");
             }
