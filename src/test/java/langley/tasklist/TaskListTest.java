@@ -54,7 +54,7 @@ public class TaskListTest {
         taskList.markTask(0); // Mark the first task as complete
 
         // Assert
-        assertTrue(taskList.getTask(0).isMarked);
+        assertTrue(taskList.getTask(0).getIsMarked());
     }
 
     @Test
@@ -68,7 +68,7 @@ public class TaskListTest {
         taskList.unmarkTask(0); // Unmark the first task
 
         // Assert
-        assertFalse(taskList.getTask(0).isMarked);
+        assertFalse(taskList.getTask(0).getIsMarked());
     }
 
     @Test
