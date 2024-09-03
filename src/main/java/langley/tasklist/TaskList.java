@@ -1,12 +1,15 @@
 package langley.tasklist;
 
-import langley.tasks.Task;
-
 import java.util.ArrayList;
 
+<<<<<<< HEAD
 /**
  * Manages a collection of tasks, including adding, deleting, marking, and listing tasks.
  */
+=======
+import langley.tasks.Task;
+
+>>>>>>> branch-A-CodingStandard
 public class TaskList {
     private ArrayList<Task> tasks = new ArrayList<>();
 

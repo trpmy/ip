@@ -1,7 +1,5 @@
 package langley.storage;
 
-import langley.tasks.Task;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -10,9 +8,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+<<<<<<< HEAD
 /**
  * Handles loading and saving of tasks to and from a file.
  */
+=======
+import langley.tasks.Task;
+>>>>>>> branch-A-CodingStandard
 
 public class Storage {
     private String filePath;
