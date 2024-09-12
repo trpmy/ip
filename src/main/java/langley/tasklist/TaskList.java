@@ -2,14 +2,13 @@ package langley.tasklist;
 
 import java.util.ArrayList;
 
-<<<<<<< HEAD
+
 /**
  * Manages a collection of tasks, including adding, deleting, marking, and listing tasks.
  */
-=======
+
 import langley.tasks.Task;
 
->>>>>>> branch-A-CodingStandard
 public class TaskList {
     private ArrayList<Task> tasks = new ArrayList<>();
 
@@ -60,12 +59,15 @@ public class TaskList {
     /**
      * Lists all tasks currently in the task list, printing them with their index and status.
      */
-    public void listTasks() {
+    public String listTasks() {
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i));
+            result.append((i + 1)).append(". ").append(tasks.get(i)).append("\n");
         }
+        return result.toString();
     }
-    public void findTasks(String keyword) {
+    public String findTasks(String keyword) {
+        StringBuilder result = new StringBuilder();
         ArrayList<Task> matchingTasks = new ArrayList<>();
         for (Task task : tasks) {
             if (task.getDescription().contains(keyword)) {
@@ -74,12 +76,13 @@ public class TaskList {
         }
 
         if (matchingTasks.size() > 0) {
-            System.out.println("Here are the matching tasks in your list:");
+            result.append("Here are the matching tasks in your list:\n");
             for (int i = 0; i < matchingTasks.size(); i++) {
-                System.out.println((i + 1) + ". " + matchingTasks.get(i));
+                result.append((i + 1)).append(". ").append(matchingTasks.get(i)).append("\n");
             }
         } else {
-            System.out.println("No matching tasks found.");
+            result.append("No matching tasks found.");
         }
+        return result.toString();
     }
 }

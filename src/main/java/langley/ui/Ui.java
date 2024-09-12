@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 /**
  * Handles user interaction, including printing messages and reading user input.
+ * (Obsolete after upgrading to GUI)
  */
 public class Ui {
     private Scanner scanner = new Scanner(System.in);

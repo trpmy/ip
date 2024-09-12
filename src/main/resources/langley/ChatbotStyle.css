@@ -1,0 +1,66 @@
+/* General Window Styling */
+.root {
+    -fx-background-color: #f0f0f0;
+}
+
+/* ScrollPane */
+.scroll-pane {
+    -fx-background: white;
+    -fx-background-color: white;
+}
+
+/* User input styling */
+.text-field {
+    -fx-font-size: 14px;
+}
+
+/* Style for user messages */
+.user-label {
+    -fx-background-color: #0084FF;
+    -fx-text-fill: white;
+    -fx-padding: 10;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-font-size: 14px;
+    -fx-max-width: 300px;
+    -fx-wrap-text: true;
+    -fx-alignment: baseline-left;
+}
+
+/* Style for chatbot messages */
+.chatbot-label {
+    -fx-background-color: #EDEDED;
+    -fx-text-fill: black;
+    -fx-padding: 10;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-font-size: 14px;
+    -fx-max-width: 300px;
+    -fx-wrap-text: true;
+    -fx-alignment: baseline-left;
+}
+
+/* Send button styling */
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-background-radius: 10;
+    -fx-font-weight: bold;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+.button:default {
+    -fx-background-color: #4CAF50;
+}
+
+/* Input container (HBox) styling */
+.hbox {
+    -fx-background-color: #eeeeee;
+    -fx-padding: 10;
+}
