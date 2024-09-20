@@ -31,7 +31,8 @@ public class Langley {
     public static String handleInput(String userInput) {
             String[] command = Parser.parseCommand(userInput);
             StringBuilder response = new StringBuilder();
-
+            assert userInput != null && !userInput.trim().isEmpty() : "Input cannot be null or empty";
+            assert command.length > 0 : "Command array should have at least one element";
             if (command[0].equalsIgnoreCase("bye")) {
                 response.append("We will meet again.");
                 Platform.exit();
