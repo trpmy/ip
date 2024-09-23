@@ -69,8 +69,13 @@ public class TaskList {
     public String findTasks(String keyword) {
         StringBuilder result = new StringBuilder();
         ArrayList<Task> matchingTasks = new ArrayList<>();
+
+        // Convert keyword to lowercase for case-insensitive search
+        String lowerCaseKeyword = keyword.toLowerCase();
+
         for (Task task : tasks) {
-            if (task.getDescription().contains(keyword)) {
+            // Compare the task description in lowercase to the lowercase keyword
+            if (task.getDescription().toLowerCase().contains(lowerCaseKeyword)) {
                 matchingTasks.add(task);
             }
         }
@@ -83,6 +88,8 @@ public class TaskList {
         } else {
             result.append("No matching tasks found.");
         }
+
         return result.toString();
     }
+
 }
