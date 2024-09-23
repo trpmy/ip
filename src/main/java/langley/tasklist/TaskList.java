@@ -80,7 +80,7 @@ public class TaskList {
             }
         }
 
-        if (matchingTasks.size() > 0) {
+        if (!matchingTasks.isEmpty()) {
             result.append("Here are the matching tasks in your list:\n");
             for (int i = 0; i < matchingTasks.size(); i++) {
                 result.append((i + 1)).append(". ").append(matchingTasks.get(i)).append("\n");

@@ -132,7 +132,6 @@ public class LangleyGuiApp extends Application {
         // Enable text wrapping and set minimum height
         chatbotText.setWrapText(true);
         chatbotText.setMinHeight(Region.USE_PREF_SIZE); // Or Region.USE_COMPUTED_SIZE
-        //chatbotText.setMinHeight(-Infinity); // This ensures no minimum height constraint
 
         ImageView chatbotAvatarView = new ImageView(chatbotAvatar);
         chatbotAvatarView.setFitWidth(50);
@@ -143,7 +142,6 @@ public class LangleyGuiApp extends Application {
         dialogContainer.getChildren().add(chatbotBox);
     }
 
-    // Get response from LangleyApp's logic (stubbed for now)
     private String getResponse(String input) {
         return Langley.handleInput(input);
     }
